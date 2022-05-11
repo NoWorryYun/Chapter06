@@ -1,7 +1,11 @@
 package echo01;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -22,7 +26,7 @@ public class Client {
 
 		System.out.println("[서버에 연길을 요청합니다.]");
 
-		socket.connect(new InetSocketAddress("192.168.0.209", 10001));
+		socket.connect(new InetSocketAddress("192.168.0.13", 10001));
 
 		System.out.println("[서버에 연결되었습니다.]");
 
@@ -37,12 +41,22 @@ public class Client {
 		BufferedReader br = new BufferedReader(isr);
 
 		// 스캐너
+		/*
 		Scanner sc = new Scanner(System.in);
-
+		 */
+		
+		InputStream in = System.in;
+		InputStreamReader sisr = new InputStreamReader(in, "UTF-8");
+		BufferedReader sbr = new BufferedReader(sisr);
+		
+		
 		while (true) {
 			// 키보드 입력
+			/*
 			String str = sc.nextLine();
-
+			*/
+			String str = sbr.readLine();
+			
 			if (str.equals("/q")) {
 				break;
 			}
@@ -58,12 +72,22 @@ public class Client {
 		}
 
 		System.out.println("===========================");
+		/*
 		System.out.println("<클라이언트 종료>");
-
+		 */
+		OutputStream out = System.out;
+		OutputStreamWriter posw = new OutputStreamWriter(out, "UTF-8");
+		BufferedWriter pbw =new BufferedWriter(posw);
+		
+		pbw.write("클라이언트 종료");
+		pbw.newLine();
+		pbw.flush();
+		
+		pbw.close();
 		br.close();
 		bw.close();
 		socket.close();
-		sc.close();
+		sbr.close();
 	}
 
 }
